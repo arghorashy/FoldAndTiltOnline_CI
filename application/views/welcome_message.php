@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+	<title>Welcome to Fold and Tilt!</title>
 
 	<style type="text/css">
 
@@ -56,6 +56,15 @@
 		padding: 0 10px 0 10px;
 		margin: 20px 0 0 0;
 	}
+
+	p.timid{
+		text-align: left;
+		font-size: 6px;
+		border-top: 1px solid #D0D0D0;
+		line-height: 32px;
+		padding: 0 10px 0 10px;
+		margin: 20px 0 0 0;
+	}
 	
 	#container{
 		margin: 10px;
@@ -63,22 +72,55 @@
 		-webkit-box-shadow: 0 0 8px #D0D0D0;
 	}
 	</style>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+<script type="text/javascript" src="http://malsup.github.com/jquery.form.js"></script>
+<script>
+$(document).ready(function() {
+  var f = $('form');
+  //var l = $('#loader'); // loder.gif image
+  var b = $('#button'); // upload button
+  var p = $('#preview'); // preview area
+
+  b.click(function(){
+    // implement with ajaxForm Plugin
+    f.ajaxForm({
+      beforeSend: function(){
+        //l.show();
+        b.attr('disabled', 'disabled');
+        p.fadeOut();
+      },
+      success: function(e){
+        //l.hide();
+        f.resetForm();
+        b.removeAttr('disabled');
+        p.html(e).fadeIn();
+      },
+      error: function(e){
+        b.removeAttr('disabled');
+        p.html(e).fadeIn();
+      }
+    });
+  });
+});
+</script>
+
+
 </head>
 <body>
 
 <div id="container">
-	<h1>Welcome to CodeIgniter!</h1>
-
+	<h1>Welcome to Fold and Tilt!</h1>
+	<p class="timid">Yes, I did totally steal the CI stylesheet!</p>
 	<div id="body">
-		<p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
 
-		<p>If you would like to edit this page you'll find it located at:</p>
-		<code>application/views/welcome_message.php</code>
+		<form id="form" action="process/upload" method="post" enctype="multipart/form-data">
+		  <input id="uploadImage" type="file"  name="image" />
+		  <input id="button" type="submit" value="Upload">
+		</form>
 
-		<p>The corresponding controller for this page is found at:</p>
-		<code>application/controllers/welcome.php</code>
+		<span id="preview"></span>
 
-		<p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
 	</div>
 
 	<p class="footer">Page rendered in <strong>{elapsed_time}</strong> seconds</p>

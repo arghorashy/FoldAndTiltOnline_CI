@@ -39,6 +39,7 @@
 */
 
 $route['default_controller'] = "welcome";
+$route['process/upload'] = "process/upload";
 $route['404_override'] = '';
 
 
