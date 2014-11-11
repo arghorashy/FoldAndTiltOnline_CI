@@ -87,8 +87,10 @@ $(document).ready(function() {
     f.ajaxForm({
       beforeSend: function(){
         //l.show();
+
         b.attr('disabled', 'disabled');
         p.fadeOut();
+
       },
       success: function(e){
         //l.hide();

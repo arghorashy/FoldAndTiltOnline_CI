@@ -33,7 +33,7 @@ class Process extends CI_Controller {
 		      //$path = $path . uniqid(). '.' .$ext;
 		      // move uploaded file from temp to uploads directory
 		  
-		  	$newimgpath = $path . basename($_FILES['image']['name']);
+		  	$newimgpath = $path . getUniqueFilename() . "." . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
 		  	$imgurl = base_url() . $newimgpath;
 		    if (move_uploaded_file($_FILES['image']['tmp_name'], $newimgpath)) 
 		    {
@@ -58,4 +58,6 @@ class Process extends CI_Controller {
 
 		echo "hihihihi";
 	}
+
+
 }
