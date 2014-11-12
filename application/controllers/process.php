@@ -19,6 +19,8 @@ class Process extends CI_Controller {
 	 */
 	public function upload()
 	{
+		$data = array("stage" => "upload");
+
 		//$valid_exts = array('jpeg', 'jpg', 'png', 'gif'); // valid extensions
 		//$max_size = 200 * 1024; // max file size
 		$path = 'uploads/'; // upload directory
@@ -37,26 +39,27 @@ class Process extends CI_Controller {
 		  	$imgurl = base_url() . $newimgpath;
 		    if (move_uploaded_file($_FILES['image']['tmp_name'], $newimgpath)) 
 		    {
-		    	echo "<img src='$imgurl' />";
+		    	$data["imgurl"] = $imgurl;
 		    }
 		    else 
 		    {
-		      echo 'Invalid file!';
+		      	$data["error"] = 'Upload failed! Could not copy file from temporary location!';
 		    }
 		  } 
 		  else 
 		  {
-		    echo 'File not uploaded!';
+		    $data["error"] = 'Upload failed! No file received!';
 		  }
 		} 
 		else 
 		{
-		  echo 'Bad request!';
+		  	$data["error"] = 'Bad request!  Expected POST request.';
 		}
+		$this->load->view('json_processProgress', $data);
 
 
 
-		echo "hihihihi";
+
 	}
 
 

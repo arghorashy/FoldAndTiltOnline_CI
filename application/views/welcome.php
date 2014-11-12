@@ -78,6 +78,7 @@
 <script>
 $(document).ready(function() {
   var f = $('form');
+  var r = $('error');
   //var l = $('#loader'); // loder.gif image
   var b = $('#button'); // upload button
   var p = $('#preview'); // preview area
@@ -96,7 +97,18 @@ $(document).ready(function() {
         //l.hide();
         f.resetForm();
         b.removeAttr('disabled');
-        p.html(e).fadeIn();
+
+        var res = $.parseJSON(e);
+        // p.html(e).fadeIn();
+        if (res.error == false)
+        {
+        	p.html(res.html).fadeIn();
+        }
+        else
+        {
+        	r.html(res.errorMessage).fadeIn();
+        }
+        
       },
       error: function(e){
         b.removeAttr('disabled');
@@ -121,6 +133,7 @@ $(document).ready(function() {
 		  <input id="button" type="submit" value="Upload">
 		</form>
 
+		<span id="error"></span>
 		<span id="preview"></span>
 
 	</div>
