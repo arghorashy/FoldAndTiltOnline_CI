@@ -1,3 +1,25 @@
+
+Setup Instructions
+------------------
+- Clone this from Git into a folder called FATOCI.
+- Clone https://github.com/arghorashy/foldandtilt called FAT.
+- Follow OpenCV installation instructions in FAT README, if you don't have it installed.
+- Follow CMake instructions in FAT README to make executable for your platform.
+- Copy the contents of FAT/FoldAndTilt/CMake/bin/Release to FATOCI/bin/foldandtilt. (Might need to create some of those folders.)
+
+
+Setup Instructions that you shouldn't have to follow... but you do... for now...
+--------------------------------------------------------------------------------
+- Modify line in .htaccess from 
+	"RewriteRule ^(.*)$ http://localhost/~afsheen/foldandtiltonlineCI/index.php/$1 [L]"
+to
+	"RewriteRule ^(.*)$ <your server address>/index.php/$1 [L]"
+- Make folder FATOCI/uploads and make sure the server can write to it.
+
+
 Todo
+- For the AJAX calls, remove the dataType attribute.  When it's JSON like that, it parses all returns as JSON all the time--even the PHP errors.  That means we cannot see the PHP errors!  It would be better to call a JSON.parse function manually at the beginning of the success function calls.
+- Is it really necessary to upload and also download the original picture?  I think so, but intuitively, that seems silly...
+- Fix "Setup Instructions that you shouldn't have to follow... but you do... for now..."
 - Add entry in .htaccess to restrict upload size.
 - Fix permission of uploads folder
