@@ -1,10 +1,10 @@
 $(document).ready(function() {
 	var f = $('form');
-	var r = $('error');
 	//var l = $('#loader'); // loder.gif image
 	var b = $('#button'); // upload button
 	var p = $('#preview'); // preview area
-	var imageHTML = {};
+	var r = $('#error');
+	var imageHTML = "";
 
 	var uploadPicture = function()
 	{
@@ -12,37 +12,66 @@ $(document).ready(function() {
 		f.ajaxForm({
 			beforeSend: function(){
 			//l.show();
+				// Form: N/A
 
-			b.attr('disabled', 'disabled');
-			p.fadeOut();
+				// Button: disable
+				b.attr('disabled', 'disabled');
+
+				// Preview: erase and fadeout
+				p.html("").fadeOut();
+
+				// Error: erase and fadeout
+				r.html("").fadeOut();
 
       		},
       		success: function(e){
 		        //l.hide();
-		        f.resetForm();
-		        b.removeAttr('disabled');
 		      
-		        if (e.error == false)
+		        if (e.error == false)	// Real success
 		        {
-		        	imageHTML[e.stage] = e.html;
+		        	// Form: Reset
+		        	f.resetForm();
 
+		        	// Button: N/A
+
+		        	//Preview: show
+		        	imageHTML = e.imghtml + "";
 		        	p.html(e.imghtml).fadeIn();
-
 		        	resizePictures();
-		        	//p.html("hihi");
+
+		        	// Error: N/A
+
 		        	FnTPicture(e.sendback);
 		        }
 		        else
 		        {
-		        	r.html(e.errorMessage).fadeIn();
+		        	// Form: N/A
+
+		        	// Button: enable 
 		        	b.removeAttr('disabled');
+
+		        	// Preview: fadein empty
+		        	p.html("").fadeIn();
+
+		        	// Error: show
+		        	r.html(e.errorMessage).fadeIn();
+		        	
 		        }
         
       		},
-      		error: function(e){
-		        b.removeAttr('disabled');
+      		error: function(e)
+      		{
+      			// Form: N/A
+
+      			// Button: enable 
+      			b.removeAttr('disabled');
+
+      			// Preview: fadein empty
+      			p.html("").fadeIn();
+
+      			// Error: show
 		        r.html(e).fadeIn();
-		        b.removeAttr('disabled');
+		        
       		},
       		dataType: 'json'
     	});
@@ -59,23 +88,63 @@ $(document).ready(function() {
 			beforeSend: function(){
 			//l.show();
 
-				b.attr('disabled', 'disabled');
-				p.fadeOut();
+      			// Form: N/A
 
+      			// Button: N/A
+
+      			// Preview: N/A
+
+      			// Error: N/A
       		},
 			success: function(e){
-				p.fadeOut();
-				p.html(e).fadeIn();
+				if (e.error == false)	// Real success
+			    {
+					// Form: N/A
 
+					// Button: enable 
+					b.removeAttr('disabled');
+
+					// Preview: fade in and out, to show new
+					imageHTML = imageHTML + e.imgplushtml + e.imgminushtml;
+					p.fadeOut(function(){
+						p.html(imageHTML).fadeIn();
+						resizePictures();
+					});
+					
+					
+
+					// Error: fade in empty
+					r.html("").fadeIn();
+				}
+				if (e.error == true)	// Real success
+			    {
+					// Form: N/A
+
+					// Button: enable 
+					b.removeAttr('disabled');
+
+					// Preview: fade in, if not showing
+			        p.fadeIn();
+
+					// Error: fade in empty
+					r.html(e.errorMessage).fadeIn();
+				}
 
 	  		},
 	  		error: function(e){
-		        b.removeAttr('disabled');
-		        p.html(e).fadeIn();
+				// Form: N/A
+
+				// Button: enable
+				b.removeAttr('disabled');
+
+				// Preview: fade in, if not showing
+		        p.fadeIn();
+
+		        // Error: show
 		        r.html(e).fadeIn();
-		        b.removeAttr('disabled');
-	  		}//,
-		  	//dataType: "json"
+		        
+	  		},
+		  	dataType: "json"
 		});
 
 	}

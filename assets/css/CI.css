@@ -64,3 +64,25 @@ p.timid{
 	border: 1px solid #D0D0D0;
 	-webkit-box-shadow: 0 0 8px #D0D0D0;
 }
+
+span#error
+{
+	text-align: left;
+	font-size: 13px;
+	color: red;
+	border-top: 1px solid #D0D0D0;
+	line-height: 32px;
+	padding: 0 10px 0 10px;
+	margin: 20px 0 0 0;
+}
+
+span#preview
+{
+	display: block;
+	text-align: center;
+
+}
+
+
+
+
