@@ -1,6 +1,6 @@
 RewriteEngine on
 Options +FollowSymLinks -MultiViews
 RewriteCond $1 !^(index\.php|images|stylesheets|scripts|robots\.txt)
-RewriteCond %{REQUEST_URI} !(\.gif|\.jpg|\.png)$ [NC]
+RewriteCond %{REQUEST_URI} !(\.gif|\.jpg|\.png|\.js|\.css)$ [NC]
 RewriteBase /
 RewriteRule ^(.*)$ http://localhost/~afsheen/foldandtiltonlineCI/index.php/$1 [L]
