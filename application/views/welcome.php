@@ -77,46 +77,122 @@
 <script type="text/javascript" src="http://malsup.github.com/jquery.form.js"></script>
 <script>
 $(document).ready(function() {
-  var f = $('form');
-  var r = $('error');
-  //var l = $('#loader'); // loder.gif image
-  var b = $('#button'); // upload button
-  var p = $('#preview'); // preview area
+	var f = $('form');
+	var r = $('error');
+	//var l = $('#loader'); // loder.gif image
+	var b = $('#button'); // upload button
+	var p = $('#preview'); // preview area
+	var imageHTML = {};
 
-  b.click(function(){
-    // implement with ajaxForm Plugin
-    f.ajaxForm({
-      beforeSend: function(){
-        //l.show();
+	var uploadPicture = function()
+	{
+		// implement with ajaxForm Plugin
+		f.ajaxForm({
+			beforeSend: function(){
+			//l.show();
 
-        b.attr('disabled', 'disabled');
-        p.fadeOut();
+			b.attr('disabled', 'disabled');
+			p.fadeOut();
 
-      },
-      success: function(e){
-        //l.hide();
-        f.resetForm();
-        b.removeAttr('disabled');
+      		},
+      		success: function(e){
+		        //l.hide();
+		        f.resetForm();
+		        b.removeAttr('disabled');
+		      
+		        if (e.error == false)
+		        {
+		        	imageHTML[e.stage] = e.html;
 
-        var res = $.parseJSON(e);
-        // p.html(e).fadeIn();
-        if (res.error == false)
-        {
-        	p.html(res.html).fadeIn();
-        }
-        else
-        {
-        	r.html(res.errorMessage).fadeIn();
-        }
+		        	p.html(e.imghtml).fadeIn();
+
+		        	resizePictures();
+		        	//p.html("hihi");
+		        	FnTPicture(e.sendback);
+		        }
+		        else
+		        {
+		        	r.html(e.errorMessage).fadeIn();
+		        	b.removeAttr('disabled');
+		        }
         
-      },
-      error: function(e){
-        b.removeAttr('disabled');
-        p.html(e).fadeIn();
-      }
-    });
-  });
+      		},
+      		error: function(e){
+		        b.removeAttr('disabled');
+		        r.html(e).fadeIn();
+		        b.removeAttr('disabled');
+      		},
+      		dataType: 'json'
+    	});
+	}
+
+	var FnTPicture = function(sendback)
+	{
+		//var d = {"sendback" : sendback};
+
+		$.ajax({
+			type: "POST",
+			url: "process/FnT",
+			data: sendback,
+			beforeSend: function(){
+			//l.show();
+
+				b.attr('disabled', 'disabled');
+				p.fadeOut();
+
+      		},
+			success: function(e){
+				p.fadeOut();
+				p.html(e).fadeIn();
+
+
+	  		},
+	  		error: function(e){
+		        b.removeAttr('disabled');
+		        p.html(e).fadeIn();
+		        r.html(e).fadeIn();
+		        b.removeAttr('disabled');
+	  		}//,
+		  	//dataType: "json"
+		});
+
+	}
+
+	var resizePictures = function()
+	{
+		var maxSize = 250;
+
+		$('img.resize').each(function(){
+
+			var $img = $(this);
+
+			$img.on('load', function(){
+
+				var scaleFactor = 1;
+
+			    var imgWidth = $img.width();
+			    var imgHeight = $img.height();
+
+			    if (maxSize / imgWidth < scaleFactor) scaleFactor = maxSize / imgWidth;
+			    if (maxSize / imgHeight < scaleFactor) scaleFactor = maxSize / imgHeight;
+
+			        
+			   $img.width(imgWidth * scaleFactor);
+			   //$img.height(imgHeight * scaleFactor);
+			});
+
+		});
+	}
+
+	// Submit picture
+	b.click(uploadPicture());
+
+
+
+
 });
+
+
 </script>
 
 
