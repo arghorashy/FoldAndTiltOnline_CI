@@ -1,4 +1,11 @@
 
+As a friend and I were splitting a bill, she showed me how you can fold and tilt the faces on paper currency to make them appear to grin (sometimes mischievously) or to frown.
+
+Fascinated, I wrote a program that would simulate the illusion for any picture containing a face.  
+
+This repository aims to expose this simulation in a web app.  To see the respository for the original stand-alone C++ program, please visit https://github.com/arghorashy/foldandtilt.
+
+
 Setup Instructions
 ------------------
 - Clone this from Git into a folder called FATOCI.
